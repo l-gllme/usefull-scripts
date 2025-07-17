@@ -3,8 +3,6 @@
 set -e
 
 USERNAME="lg"
-GIT_USERNAME="l-gllme"
-GIT_EMAIL="l-gllme@users.noreply.github.com"
 
 # Ensure sudo available
 if ! sudo -v; then
@@ -47,11 +45,6 @@ sudo apt update
 sudo apt install -y code
 rm /tmp/microsoft.gpg
 
-echo "➤ Configuring Git..."
-git config --global user.name "$GIT_USERNAME"
-git config --global user.email "$GIT_EMAIL"
-git config --global init.defaultBranch main
-
 echo "➤ Installing MesloLGS Nerd Font (for Powerlevel10k)..."
 FONT_DIR="/usr/share/fonts/truetype/meslo-nerd-font"
 sudo mkdir -p "$FONT_DIR"
@@ -78,4 +71,3 @@ sed -i 's|^ZSH_THEME=.*|ZSH_THEME="powerlevel10k/powerlevel10k"|' ~/.zshrc
 # Restart shell
 exec zsh
 EOF
-
