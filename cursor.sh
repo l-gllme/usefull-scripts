@@ -5,7 +5,6 @@ set -e
 echo "📥 Downloading Cursor AppImage and icon..."
 
 # Cursor AppImage URL (example version 1.2.2)
-CURSOR_APPIMAGE_URL="https://github.com/antfu/cursor/releases/download/v1.2.2/Cursor-1.2.2-x86_64.AppImage"
 ICON_URL="https://img.icons8.com/?size=512&id=DiGZkjCzyZXn&format=png"
 
 # Create required directories
@@ -13,8 +12,9 @@ mkdir -p ~/.local/bin
 mkdir -p ~/.local/share/icons
 mkdir -p ~/.local/share/applications
 
-# Download Cursor AppImage
-curl -L -o ~/.local/bin/Cursor "$CURSOR_APPIMAGE_URL"
+
+# Install Cursor AppImage from local file
+cp /home/lg/Downloads/Cursor-1.2.2-x86_64.AppImage ~/.local/bin/Cursor
 chmod +x ~/.local/bin/Cursor
 
 # Download icon and rename it
@@ -36,16 +36,22 @@ if ! grep -q 'export PATH="$HOME/.local/bin:$PATH"' ~/.bashrc; then
 fi
 
 # Create .desktop launcher
+
+# Create .desktop launcher with absolute paths
 cat << EOF > ~/.local/share/applications/cursor.desktop
 [Desktop Entry]
 Name=Cursor
-Exec=$HOME/.local/bin/Cursor --no-sandbox
-Icon=$HOME/.local/share/icons/cursor-icon.png
+Exec=/home/lg/.local/bin/cursor %U
+Icon=/home/lg/.local/share/icons/cursor-icon.png
 Type=Application
 Categories=Development;
 StartupNotify=true
 Terminal=false
 EOF
+
+# Optionally, add a comment about AppImage dependencies
+# Note: If Cursor does not start, ensure FUSE/AppImage dependencies are installed:
+# sudo apt install fuse libfuse2 || true
 
 # Refresh desktop database
 update-desktop-database ~/.local/share/applications || true
